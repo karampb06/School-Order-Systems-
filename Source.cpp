@@ -1,37 +1,72 @@
-// ConsoleApplication1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "order.h"
 #include <iostream>
-#include <string>
+#include <ctime>
 
-using namespace std;
+// Definition of the orders vector to store orders
+vector<Order> orders;
 
-// Struct to store staff member's information
-struct StaffMember {
-    string fullName;
-    char gender;
-    string dateOfBirth;
-    string visaCardNumber;
-    string visaExpiry;
-};
+// Function to generate a unique identifier with a prefix and current timestamp
+string generateUniqueId(const string& prefix) {
+    // Obtain the current time
+    time_t now = time(nullptr);
+    // Create a tm structure to hold the local time
+    struct tm timeinfo;
+    // Convert time to local time
+    localtime_s(&timeinfo, &now);
+    // Buffer to hold the formatted unique identifier
+    char buffer[80];
+    // Format the unique identifier with the given prefix and timestamp
+    strftime(buffer, sizeof(buffer), (prefix + "%Y%m%d%H%M%S").c_str(), &timeinfo);
+    return string(buffer);
+}
 
-// Function to register a new staff member
-void registerStaff(StaffMember& staff) {
+// Function to create and add a new order to the list
+void createOrder() {
+    Order newOrder;
+    newOrder.orderNumber = generateUniqueId("ORD");
+    cout << "\n\t ***********" << endl;
+    // ... (Rest of the input and processing code remains unchanged)
+    cout << " # Enter the Order Date (YYYY-MM-DD): ";
+    cin >> newOrder.orderDate;
+    cout << " # Enter the item Name: ";
+    cin >> newOrder.itemName;
+    cout << " # provide the details of Quantity size:: (Small/Medium/Large): ";
+    cin >> newOrder.Quantity;
+    cout << " # Enter the item Price $ : ";
+    cin >> newOrder.Price;
+    cout << " # Enter the Child Name: ";
+    cin >> newOrder.childName;
+    cout << " # Enter  the Classroom Number: ";
+    cin >> newOrder.classroomNumber;
+    cout << " # please mention your Dietary Preferences: ";
+    cin >> newOrder.Dietary_Pref;
+
+    // for payment options 
+    string paymentOption;
+    cout << "\n Proceed with the payment? (yes/no): ";
+    cin >> paymentOption;
+    newOrder.paymentStatus = (paymentOption == "yes") ? "Paid" : "Not_Paid_*pay on delivery ";
+
+    newOrder.issuedStatus = "Pending"; // Default status
+
+    cout << "\n\t ***********" << endl;
+    orders.push_back(newOrder);
+
+    cout << "\n ******************************************** ";
+    cout << "\n        Order created successfully              ";
     cout << endl;
-    cout << " \n Enter the staff member's full name: ";
-    getline(cin, staff.fullName);
-    // Use getline to read full name with spaces
-
-    cout << "\n Enter the staff member's gender (M/F): ";
-    cin >> staff.gender;
-
-    cout << "\nEnter the staff member's date of birth (DD/MM/YYYY): ";
-    cin >> staff.dateOfBirth;
-
-    cout << "\nEnter the staff member's visa card number: ";
-    cin >> staff.visaCardNumber;
-
-    cout << "\nEnter the staff member's visa card expiry date of expiry : (MM/YYYY): ";
-    cin >> staff.visaExpiry;
+    cout << "\n ********************************************";
     cout << endl;
-    cout << "\n Staff Registration successfully Completed ";
+
+    cout << "\n\t$***** Bill *****$\n" << endl;
+
+    cout << "\n*********************************************************** " << endl;
+    cout << " * Order Number: " << newOrder.orderNumber << endl;
+    cout << " * Date: " << newOrder.orderDate << endl;
+    cout << " * Item Name: " << newOrder.itemName << endl;
+    cout << " * Price $ : " << newOrder.Price << endl;
+    cout << " * Payment status  : " << newOrder.paymentStatus << endl;
+    cout << " * Student Name: " << newOrder.childName << endl;
+    cout << " * Room Number: " << newOrder.classroomNumber << endl;
+    cout << "\n*********************************************************** " << endl;
 }
